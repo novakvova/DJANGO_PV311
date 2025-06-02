@@ -1,0 +1,7 @@
+## Python Django
+
+```
+py --version
+
+
+```
