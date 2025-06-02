@@ -24,5 +24,7 @@ py manage.py startapp polls
 
 py manage.py runserver 4892
 
+pip install psycopg2-binary
+
 deactivate
 ```
