@@ -26,5 +26,11 @@ py manage.py runserver 4892
 
 pip install psycopg2-binary
 
+py manage.py migrate
+
+py manage.py makemigrations polls
+
+py manage.py sqlmigrate polls 0001
+
 deactivate
 ```
