@@ -58,3 +58,12 @@ py manage.py runserver 4892
 ```
 pip install python-decouple
 ```
+
+##Add file .env to folder manage.py file
+```
+DB_NAME=neondb
+DB_USER=neondb_owner
+DB_PASSWORD=npg_mAo9XHf1PrWn
+DB_HOST=ep-lingering-recipe-a2i5ma74-pooler.eu-central-1.aws.neon.tech
+DB_PORT=5432
+```
