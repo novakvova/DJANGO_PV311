@@ -53,3 +53,8 @@ cd djangotutorial
 py manage.py runserver 4892
 
 ```
+
+## Add env options
+```
+pip install python-decouple
+```
