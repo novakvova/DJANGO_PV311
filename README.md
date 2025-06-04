@@ -34,3 +34,22 @@ py manage.py sqlmigrate polls 0001
 
 deactivate
 ```
+
+## Git Clone Project
+
+```
+git clone https://github.com/novakvova/DJANGO_PV311.git
+cd DJANGO_PV311
+
+py -m venv .venv
+.venv\Scripts\activate.bat
+
+python.exe -m pip install --upgrade pip
+py -m pip install Django
+pip install psycopg2-binary
+
+cd djangotutorial
+
+py manage.py runserver 4892
+
+```
