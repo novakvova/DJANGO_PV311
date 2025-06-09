@@ -91,6 +91,7 @@ pip freeze > requirements.txt
 
 git clone https://github.com/novakvova/DJANGO_PV311.git
 cd DJANGO_PV311
+cd DjangoMVT
 py -m venv .venv
 .venv\Scripts\activate.bat
 
@@ -98,5 +99,6 @@ python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 
 cd djangotutorial
+copy .env.example .env
 py manage.py runserver 4892
 ```
