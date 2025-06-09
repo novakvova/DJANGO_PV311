@@ -102,3 +102,12 @@ cd djangotutorial
 copy .env.example .env
 py manage.py runserver 4892
 ```
+
+## Working images CustomUser
+```
+.venv\Scripts\activate.bat
+cd djangotutorial
+
+py manage.py makemigrations polls
+py manage.py migrate
+```

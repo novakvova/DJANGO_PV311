@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm
 from django.contrib import messages
+from .utils import compress_image
+
 # Create your views here.
 
 def index(request):
@@ -18,7 +20,12 @@ def register(request):
                 user.first_name = form.cleaned_data['first_name']
                 user.last_name = form.cleaned_data['last_name']
                 if 'image' in request.FILES:
-                    user.image = request.FILES['image']
+                    optimized_image, image_name = compress_image(request.FILES['image'], size=(300,300))
+                    user.image_small.save(image_name, optimized_image, save=False)
+                    optimized_image, image_name = compress_image(request.FILES['image'], size=(800,800))
+                    user.image_medium.save(image_name, optimized_image, save=False)
+                    optimized_image, image_name = compress_image(request.FILES['image'], size=(1200,1200))
+                    user.image_large.save(image_name, optimized_image, save=False)
                 user.save()
                 return redirect('polls:index')
             except Exception as e:
