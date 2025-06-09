@@ -81,3 +81,22 @@ py manage.py makemigrations polls
 py manage.py migrate
 
 ```
+
+## Отримання списку пакетів
+```
+.venv\Scripts\activate.bat
+pip freeze
+pip freeze > requirements.txt
+
+
+git clone https://github.com/novakvova/DJANGO_PV311.git
+cd DJANGO_PV311
+py -m venv .venv
+.venv\Scripts\activate.bat
+
+python.exe -m pip install --upgrade pip
+pip install -r requirements.txt
+
+cd djangotutorial
+py manage.py runserver 4892
+```
