@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from .utils import compress_image
+from .models import CustomUser
 
 # Create your views here.
 
@@ -35,3 +36,7 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+def list_users(request):
+    users = CustomUser.objects.all()
+    return render(request, 'list_users.html', {'users': users})
