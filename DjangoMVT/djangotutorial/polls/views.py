@@ -5,6 +5,11 @@ from django.contrib import messages
 from .utils import compress_image
 from .models import CustomUser
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
+from .models import Post
+
 
 # Create your views here.
 
@@ -64,3 +69,23 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('polls:index')
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'posts/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-created_at']
+
+@login_required
+def post_create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request, 'Новину успішно створено!')
+            return redirect('polls:post_list')
+    else:
+        form = PostForm()
+    return render(request, 'posts/post_create.html', {'form': form})

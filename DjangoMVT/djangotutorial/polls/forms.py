@@ -1,5 +1,5 @@
 from django import forms
-from .models import CustomUser
+from .models import CustomUser, Post
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class CustomUserCreationForm(UserCreationForm):
@@ -61,3 +61,12 @@ class LoginForm(AuthenticationForm):
             'placeholder': 'Введіть пароль'
         })
     )
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+        }
