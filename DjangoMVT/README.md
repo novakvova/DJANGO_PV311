@@ -110,4 +110,6 @@ cd djangotutorial
 
 py manage.py makemigrations polls
 py manage.py migrate
+
+py manage.py runserver 4892
 ```

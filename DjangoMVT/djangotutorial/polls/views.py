@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, LoginForm
 from django.contrib import messages
 from .utils import compress_image
 from .models import CustomUser
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -40,3 +41,26 @@ def register(request):
 def list_users(request):
     users = CustomUser.objects.all()
     return render(request, 'list_users.html', {'users': users})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'Вітаємо, {user.first_name}!')
+            return redirect('polls:index')
+        else:
+            messages.error(request, 'Невірний email/логін або пароль.')
+    else:
+        form = LoginForm()
+
+    return render(request, 'login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('polls:index')
