@@ -29,3 +29,18 @@ Qwerty1-
 py manage.py runserver 4097
 
 pip install djangorestframework
+
+## Add cors
+```
+pip install django-cors-headers
+```
+
+## Create React App Vite
+```
+npm create vite@latest my-react-app -- --template react-ts
+cd my-react-app
+npm install
+npm run dev
+
+npm i @reduxjs/toolkit react-redux
+```
