@@ -44,3 +44,9 @@ npm run dev
 
 npm i @reduxjs/toolkit react-redux
 ```
+
+## Install flowbite and Tailwind css
+```
+npm install tailwindcss @tailwindcss/vite
+npm i @heroicons/react @headlessui/react
+```
