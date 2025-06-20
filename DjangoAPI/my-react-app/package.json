@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "flowbite-react patch"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-jvectormap/core": "^1.0.4",
@@ -19,7 +18,6 @@
     "@tailwindcss/vite": "^4.1.10",
     "apexcharts": "^4.7.0",
     "flatpickr": "^4.6.13",
-    "flowbite-react": "^0.11.8",
     "react": "^19.1.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.1.0",
