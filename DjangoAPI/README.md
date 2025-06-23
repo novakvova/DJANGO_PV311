@@ -50,3 +50,4 @@ npm i @reduxjs/toolkit react-redux
 npm install tailwindcss @tailwindcss/vite
 npm i @heroicons/react @headlessui/react
 ```
+
