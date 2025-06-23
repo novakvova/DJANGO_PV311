@@ -7,6 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../components/ui/table";
+import LoadingOverlay from "../../components/ui/loading/LoadingOverlay.tsx";
 
 const HomePage: React.FC = () => {
 
@@ -16,9 +17,6 @@ const HomePage: React.FC = () => {
     console.log("error", error);
     console.log("isLoading", isLoading);
 
-    if (isLoading) {
-        return "Loading...";
-    }
     if (error) return "<span>У нас проблеми хюстон</span>";
     return (
         <>
@@ -28,12 +26,15 @@ const HomePage: React.FC = () => {
                 </div>
             </header>
 
+            {isLoading && <LoadingOverlay />}
+
             {/*<div className="relative overflow-x-auto shadow-md sm:rounded-lg">*/}
 
                 <Table>
                     <TableHeader className="border-gray-100 dark:border-gray-800 border-y">
                         <TableRow>
                             <TableCell isHeader className="py-3 text-start">Назва</TableCell>
+                            <TableCell isHeader className="py-3 text-start">Фото</TableCell>
                             <TableCell isHeader className="py-3 text-start">Слаг</TableCell>
                             <TableCell isHeader className="py-3 text-start">Опис</TableCell>
                         </TableRow>
@@ -45,6 +46,10 @@ const HomePage: React.FC = () => {
                             <TableRow key={category.id}>
                                 <TableCell className="py-3 font-medium text-gray-800 dark:text-white/90">
                                     {category.name}
+                                </TableCell>
+
+                                <TableCell className="py-3 text-gray-500 dark:text-gray-400">
+                                    <img src={category.image} alt="" width={75}/>
                                 </TableCell>
 
                                 <TableCell className="py-3 text-gray-500 dark:text-gray-400">
