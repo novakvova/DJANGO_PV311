@@ -1,7 +1,12 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import * as React from "react";
-import {Link, Outlet} from "react-router-dom";
+import {Link, Navigate, Outlet, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useFetchUserQuery} from "../../services/authApi.ts";
+import {useEffect} from "react";
+import {logout, setCredentials} from "../../features/authSlice.ts";
+import {message} from "antd";
 
 const user = {
     name: 'Tom Cook',
@@ -12,8 +17,8 @@ const user = {
 const navigation = [
     { name: 'Dashboard', href: '/', current: true },
     { name: 'Додати', href: '/categories/create', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
+    { name: 'Вхід', href: '/login', current: false },
+    { name: 'Реєстрація', href: '/register', current: false },
     { name: 'Reports', href: '#', current: false },
 ]
 const userNavigation = [
@@ -28,6 +33,34 @@ function classNames(...classes) {
 }
 
 const Layout : React.FC = () => {
+    // Компонент для захисту приватних маршрутів
+    const PrivateRoute = ({ element }) => {
+        const token = useSelector((state) => state.auth.access); // Використовуємо 'access' для отримання токену
+        return token ? element : <Navigate to="/login" />; // Якщо немає токену, редірект на login
+    };
+
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.auth.access); // Використовуємо 'access' для токену
+    const userAuth = useSelector((state) => state.auth.user); // Отримуємо користувача з Redux
+    const { data: userData, isSuccess } = useFetchUserQuery(undefined, { skip: !token });
+    const navigate = useNavigate();
+
+    console.log("Current user from Redux:", user);
+    useEffect(() => {
+        if (isSuccess && userData) {
+            dispatch(setCredentials({ access: token, user: userData })); // Зберігаємо користувача та токен
+            console.log("User data stored in Redux:", userData);
+        }
+    }, [userData, isSuccess, dispatch, token]);
+
+    const handleLogout = () => {
+        dispatch(logout());
+        message.success('Ви вийшли з системи');
+        navigate('/login');
+    };
+
+    console.log("Auth user", userAuth)
+
     return (
         <>
             {/*

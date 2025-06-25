@@ -51,3 +51,8 @@ npm install tailwindcss @tailwindcss/vite
 npm i @heroicons/react @headlessui/react
 ```
 
+## Django Add JWT
+```
+pip install djangorestframework-simplejwt
+```
+
