@@ -24,7 +24,7 @@ const LoginPage = () => {
     };
 
     const loginWithGoogle = useGoogleLogin({
-        onSuccess: tokenResponse => console.log(tokenResponse.access_token),
+        onSuccess: tokenResponse => console.log(tokenResponse),
     });
 
     return (
