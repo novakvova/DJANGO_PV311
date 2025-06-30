@@ -1,55 +1,31 @@
 from rest_framework import serializers
-from .models import Category
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth import get_user_model
+from .models import Category, CustomUser
+from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 
-User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+    phone = serializers.CharField(required=False, allow_blank=True)
+    image = serializers.ImageField(required=False, allow_null=True)
+    email = serializers.EmailField(required=True) 
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = CustomUser
+        fields = ('username', 'email', 'password', 'password2', 'phone', 'image')  # email тут
 
-    def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("Цей логін уже зайнятий.")
-        return value
-
-    def validate_email(self, value):
-        if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Цей email уже використовується.")
-        return value
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Паролі не співпадають."})
+        return attrs
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
+        password = validated_data.pop('password')
+        validated_data.pop('password2')
+        user = CustomUser.objects.create_user(**validated_data)
+        user.set_password(password)
+        user.save()
         return user
-
-from django.db.models import Q
-
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        identifier = attrs.get("username")  # може бути username або email
-        password = attrs.get("password")
-
-        try:
-            user = User.objects.get(Q(username=identifier) | Q(email=identifier))
-        except User.DoesNotExist:
-            raise serializers.ValidationError("Користувача не знайдено")
-
-        if not user.check_password(password):
-            raise serializers.ValidationError("Невірний пароль")
-
-        data = super().validate({
-            "username": user.username,
-            "password": password
-        })
-        return data
-
 
 
 class CategorySerializer(serializers.ModelSerializer):

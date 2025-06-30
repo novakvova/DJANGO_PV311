@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {useLoginMutation} from "../../services/authApi.ts";
 import {setCredentials} from "../../features/authSlice.ts";
+import {useGoogleLogin} from "@react-oauth/google";
 
 const LoginPage = () => {
     const [login, { isLoading }] = useLoginMutation();
@@ -21,6 +22,10 @@ const LoginPage = () => {
             message.error('Невдалий вхід');
         }
     };
+
+    const loginWithGoogle = useGoogleLogin({
+        onSuccess: tokenResponse => console.log(tokenResponse.access_token),
+    });
 
     return (
         <Card title="Вхід" style={{ maxWidth: 400, margin: '50px auto' }}>
@@ -43,6 +48,16 @@ const LoginPage = () => {
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={isLoading} block>
                         Увійти
+                    </Button>
+                </Form.Item>
+                <Form.Item>
+                    <Button 
+                        type="default" 
+                        onClick={() => loginWithGoogle()} 
+                        block 
+                        style={{ marginTop: 8 }}
+                    >
+                        Увійти через Google
                     </Button>
                 </Form.Item>
             </Form>

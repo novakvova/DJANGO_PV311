@@ -2,9 +2,9 @@ py -m venv .venv
 
 .venv\Scripts\activate.bat
 
-pip install django
-
 python.exe -m pip install --upgrade pip
+
+pip install django
 
 django-admin startproject storeapi
 
@@ -54,5 +54,16 @@ npm i @heroicons/react @headlessui/react
 ## Django Add JWT
 ```
 pip install djangorestframework-simplejwt
+pip install Pillow
+```
+
+## Google Auth
+```
+pip install requests
+cd storeapi
+
+python manage.py makemigrations
+python manage.py migrate
+py manage.py runserver 4097
 ```
 
