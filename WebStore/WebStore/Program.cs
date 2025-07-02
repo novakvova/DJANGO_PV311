@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WebStore.Data;
+using WebStore.Extensions;
+using WebStore.Interfaces;
+using WebStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,18 @@ builder.Services.AddDbContext<MyStoreContext>(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddIdentityConfiguration();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 
