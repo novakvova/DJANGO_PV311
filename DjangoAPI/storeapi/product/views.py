@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
+from django.core.mail import send_mail
 
 User = get_user_model()
 GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo"
@@ -81,6 +82,14 @@ class GoogleLoginView(APIView):
             user.save(update_fields=["phone"])
 
         refresh = RefreshToken.for_user(user)
+
+        send_mail(
+            subject='Тестовий лист',
+            message='Це тестовий лист від Django через smtp.ukr.net.',
+            from_email='super.novakvova@ukr.net',
+            recipient_list=['novakvova@gmail.com'],
+            fail_silently=False,
+        )
 
         return Response({
             "id": google_id,
