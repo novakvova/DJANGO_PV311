@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {useLoginMutation} from "../../services/authApi.ts";
 import {setCredentials} from "../../features/authSlice.ts";
 import {useGoogleLogin} from "@react-oauth/google";
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const [login, { isLoading }] = useLoginMutation();
@@ -50,6 +51,9 @@ const LoginPage = () => {
                         Увійти
                     </Button>
                 </Form.Item>
+
+                <Link to="/password-reset" style={{ marginTop: 8 }}>Забули пароль?</Link>
+                
                 <Form.Item>
                     <Button 
                         type="default" 

@@ -8,6 +8,8 @@ import AdminDashboardPage from "./pages/admin/Dashboard";
 import AdminNotFoundPage from "./pages/admin/NotFound";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
+import PasswordResetRequest from './pages/PasswordReset/index.tsx';
+import PasswordResetConfirm from './pages/PasswordResetConfirm/index.tsx';
 
 const App = () => {
 
@@ -22,6 +24,12 @@ const App = () => {
                     </Route>
                     <Route path="login" element={<LoginPage />} />
                     <Route path="register" element={<RegisterPage />} />
+                    <Route path={"password-reset"} element={<PasswordResetRequest />} />
+                    <Route
+                        path="password-reset-confirm/:uid/:token"
+                        element={<PasswordResetConfirm />}
+                        />
+
                 </Route>
 
                 <Route path={"admin"} element={<AdminLayout />}>

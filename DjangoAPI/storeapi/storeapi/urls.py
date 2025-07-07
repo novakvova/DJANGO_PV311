@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 
-from product.views import CategoryViewSet, RegisterView, CurrentUserView, GoogleLoginView, LoginView
+from product.views import CategoryViewSet, RegisterView, CurrentUserView, GoogleLoginView, LoginView, PasswordResetRequestView, PasswordResetConfirmView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 router = DefaultRouter()
@@ -35,5 +35,7 @@ urlpatterns = [
     path('api/google-login/', GoogleLoginView.as_view(), name='google-login'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/user/', CurrentUserView.as_view(), name='current_user'),
+    path('api/password-reset-request/', PasswordResetRequestView.as_view(), name='password-reset-request'),
+    path('api/password-reset-confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
