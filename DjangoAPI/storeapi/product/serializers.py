@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, CustomUser
+from .models import Category, CustomUser, Product, ProductImage
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
@@ -46,3 +46,28 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     uid = serializers.CharField()
     token = serializers.CharField()
     new_password = serializers.CharField(min_length=6, validators=[validate_password])
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'url', 'alt_text']
+
+    def get_url(self, obj):
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = ['id', 'category', 'name', 'slug', 'description', 'price', 'images']
+
+    def get_images(self, obj):
+        request = self.context.get('request')
+        return ProductImageSerializer(obj.images.all(), many=True, context={'request': request}).data

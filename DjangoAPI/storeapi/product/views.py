@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
-from .models import Category
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from .models import Category, Product, ProductImage
 from .serializers import CategorySerializer, RegisterSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,7 +14,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from django.core.mail import send_mail
-from .serializers import PasswordResetRequestSerializer, PasswordResetConfirmSerializer
+from .serializers import PasswordResetRequestSerializer, PasswordResetConfirmSerializer, ProductSerializer, ProductImageSerializer
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -179,3 +179,29 @@ class PasswordResetConfirmView(APIView):
         return Response(
             {"message": "Пароль успішно змінено."}, status=status.HTTP_200_OK
         )
+
+# Продукти з фільтром по категорії
+class ProductViewSet(ReadOnlyModelViewSet):
+    queryset = Product.objects.prefetch_related('images').select_related('category')
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        print("django get_queryset")
+        queryset = self.queryset
+        category_id = self.request.query_params.get("category")
+
+        print("category_id", category_id)
+        print(self.request)
+
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+
+        return queryset
+
+
+# Фото продуктів (для адмінки або окремого керування)
+class ProductImageViewSet(ModelViewSet):
+    queryset = ProductImage.objects.select_related('product')
+    serializer_class = ProductImageSerializer
+    permission_classes = [AllowAny]

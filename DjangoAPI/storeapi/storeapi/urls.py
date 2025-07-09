@@ -21,11 +21,13 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 
-from product.views import CategoryViewSet, RegisterView, CurrentUserView, GoogleLoginView, LoginView, PasswordResetRequestView, PasswordResetConfirmView
+from product.views import CategoryViewSet, ProductViewSet, ProductImageViewSet, RegisterView, CurrentUserView, GoogleLoginView, LoginView, PasswordResetRequestView, PasswordResetConfirmView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 router = DefaultRouter()
 router.register('categories', CategoryViewSet, basename='category')
+router.register('products', ProductViewSet, basename='product')
+router.register('product-images', ProductImageViewSet, basename='product-image')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
