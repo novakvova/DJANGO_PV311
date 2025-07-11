@@ -10,6 +10,7 @@ import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import PasswordResetRequest from './pages/PasswordReset/index.tsx';
 import PasswordResetConfirm from './pages/PasswordResetConfirm/index.tsx';
+import AddProductPage from './pages/products/create/index.tsx';
 
 const App = () => {
 
@@ -29,6 +30,10 @@ const App = () => {
                         path="password-reset-confirm/:uid/:token"
                         element={<PasswordResetConfirm />}
                         />
+
+                    <Route path={"products"}>
+                        <Route path={"create"} element={<AddProductPage/>}/>
+                    </Route>
 
                 </Route>
 
